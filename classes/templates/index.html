@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>User Info</title>
+    <link rel="stylesheet" type="text/css" href="./table.css" />
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+</head>
+<body>
+<style>
+body{font-family:Arial; font-size:14px;line-height:180%;padding-top: 20px;} /*总控制，可忽略此行*/
+table tr:first-child{background:#0066CC; color:#fff;font-weight:bold;} /*第一行标题蓝色背景*/
+table{border-top:1pt solid #C1DAD7;border-left:1pt solid #C1DAD7;margin: 0 auto;}
+td{ padding:5px 10px; text-align:center;border-right:1pt solid #C1DAD7;border-bottom:1pt solid #C1DAD7;}
+tr:nth-of-type(odd){ background:#c6f9f7} /* odd 标识奇数行，even标识偶数行 */
+tr:hover{ background: #E0F0F0;} /*鼠标悬停后表格背景颜色*/
+</style>
+<h1 style="text-align:center">员工信息查询</h1>
+<form id="form" action="##" method="post" style="text-align:center">
+    <p>员工编号
+        <input name="usercode" type="text" id="usercode" tabindex="1" size="15" />
+        <input type="button" value="查询" onclick="selectUser()">
+    </p>
+</form>
+<table width='600' border='0' cellspacing='0' cellpadding='0' align='center'>
+    <tr>
+        <td>员工姓名</td>
+        <td>员工编号</td>
+        <td>员工部门</td>
+    </tr>
+    <tr>
+        <td id="username"></td>
+        <td id="code"></td>
+        <td id="apartment"></td>
+    </tr>
+</table>
+</div>
+<script type="text/javascript">
+        function selectUser() {
+            <!--获取员工编号-->
+            var usercode = document.getElementById("usercode").value;
+            $.ajax({
+                type:"post",
+                dataType:"json",
+                url: "http://192.168.51.183/userInfo",
+                data:{usercode:usercode},
+                success:function(result) {
+                    <!--接收后台返回的数据，渲染页面-->
+                    $("#username").text(result.usercode);
+                    $("#code").text(result.username);
+                    $("#apartment").text(result.department);
+                    console.log(result);
+                },
+                error:function() {
+                    $("#username").text("");
+                    $("#code").text("");
+                    $("#apartment").text("");
+                    alert("查询异常！");
+                }
+            });
+        }
+</script>
+</body>
+
+
+</html>
